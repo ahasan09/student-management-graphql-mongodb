@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectIdColumn, PrimaryColumn } from 'typeorm'
 
-@Entity()
+@Entity('lesson')
 export class Lesson {
     @ObjectIdColumn()
     _id: string;
@@ -16,4 +16,7 @@ export class Lesson {
 
     @Column()
     endDate: string;
+
+    @Column()
+    students: string[]
 }

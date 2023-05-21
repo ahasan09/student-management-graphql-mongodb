@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { Student } from './student.entity';
 import { CreateStudentInput } from './create-student.input';
@@ -12,7 +12,7 @@ export class StudentService {
     ) { }
 
     async getStudents(): Promise<Student[]> {
-       return this.repository.find();
+        return this.repository.find();
     }
 
     async getStudentById(id: string): Promise<Student> {
@@ -32,5 +32,14 @@ export class StudentService {
         });
 
         return this.repository.save(student);
+    }
+
+    async getManyStudents(studentIds: string[]): Promise<Student[]> {
+        const students = await this.repository.find({
+            where: {
+              id: In(studentIds),
+            },
+          });
+          return students || [];
     }
 }
