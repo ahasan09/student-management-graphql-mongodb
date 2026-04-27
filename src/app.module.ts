@@ -13,7 +13,6 @@ import { Student } from './student/student.entity'
             type: 'mongodb',
             url: 'mongodb://localhost/school',
             synchronize: true,
-            useUnifiedTopology: true,
             entities: [
                 Lesson,
                 Student
