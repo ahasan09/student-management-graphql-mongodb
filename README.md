@@ -1,73 +1,109 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Student Management — GraphQL + MongoDB
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS GraphQL API for managing students and lessons. Uses MongoDB as the database via TypeORM and exposes a GraphQL playground for exploring queries and mutations.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- GraphQL API (Apollo Server)
+- Student CRUD — create, read, update, delete students
+- Lesson management — assign students to lessons
+- MongoDB persistence via TypeORM
+- Input validation with class-validator
+- GraphQL Playground at `/graphql`
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tech Stack
 
-## Installation
+- [NestJS](https://nestjs.com/) — Node.js framework
+- TypeScript
+- GraphQL (Apollo Server)
+- MongoDB
+- TypeORM
+- class-validator / class-transformer
+- UUID
 
-```bash
-$ npm install
-```
+## Prerequisites
 
-## Running the app
+- [Node.js](https://nodejs.org/) v14+
+- [MongoDB](https://www.mongodb.com/) running locally (default: `mongodb://localhost/27017`)
+
+## Getting Started
+
+### 1. Install dependencies
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/ahasan09/student-management-graphql-mongodb
+cd student-management-graphql-mongodb
+npm install
 ```
 
-## Test
+### 2. Configure MongoDB
+
+By default the app connects to `mongodb://localhost/school`. To change this, update the TypeORM config in `src/app.module.ts`.
+
+### 3. Run the app
 
 ```bash
-# unit tests
-$ npm run test
+# Development (watch mode)
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Production
+npm run build && npm run start:prod
 ```
 
-## Support
+Open [http://localhost:3000/graphql](http://localhost:3000/graphql) to access the GraphQL Playground.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Example Queries
 
-## Stay in touch
+```graphql
+# Create a student
+mutation {
+  createStudent(createStudentInput: {
+    firstName: "John"
+    lastName: "Doe"
+  }) {
+    id
+    firstName
+    lastName
+  }
+}
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# Get all students
+query {
+  students {
+    id
+    firstName
+    lastName
+  }
+}
 
-## License
+# Create a lesson
+mutation {
+  createLesson(createLessonInput: {
+    name: "Mathematics"
+    startDate: "2024-01-15T09:00:00Z"
+    endDate: "2024-01-15T10:00:00Z"
+    students: []
+  }) {
+    id
+    name
+  }
+}
+```
 
-Nest is [MIT licensed](LICENSE).
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run start:dev` | Start in watch mode |
+| `npm run build` | Compile TypeScript |
+| `npm run start:prod` | Run compiled output |
+| `npm run test` | Unit tests |
+
+## Project Structure
+
+```
+src/
+├── student/     # Student module — resolver, service, entity, DTOs
+├── lesson/      # Lesson module — resolver, service, entity, DTOs
+└── main.ts      # App bootstrap
+```
