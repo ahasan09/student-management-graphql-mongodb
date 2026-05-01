@@ -1,0 +1,13 @@
+
+> graphql-mongodb@0.0.1 test
+> jest
+
+PASS src/smoke.spec.ts
+  smoke
+    ✓ runs basic assertions
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.687 s
+Ran all test suites.
